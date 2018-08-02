@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
     }
 
     public void loadPurchase(View view) {
-        Boolean hasPurchases = bp.loadOwnedPurchasesFromGoogle();
-        if (hasPurchases) {
+        bp.loadOwnedPurchasesFromGoogle();
+        List<String> products = bp.listOwnedProducts();
+        List<String> subscriptions = bp.listOwnedSubscriptions();
+
+        if (!products.isEmpty() || !subscriptions.isEmpty()) {
             List<String> responses = new ArrayList<String>();
-            List<String> products = bp.listOwnedProducts();
-            List<String> subscriptions = bp.listOwnedSubscriptions();
+
 
             for (String sku : products) {
                 TransactionDetails details = bp.getPurchaseTransactionDetails(sku);
